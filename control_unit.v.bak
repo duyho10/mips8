@@ -1,0 +1,97 @@
+module mips8( input[2:0] opcode,
+						input[2:0] funct_in,
+                           input reset,  
+                           output reg[1:0] reg_dst,mem_to_reg,
+									output reg[2:0] ALU_funct,
+                           output reg jump,branch,mem_read,mem_write,alu_src,reg_write                      
+   );  
+ always @(*)  
+ begin  
+      if(reset == 1'b1) begin  
+                reg_dst = 1'b0;  
+                mem_to_reg = 1'b0;  
+                jump = 1'b0;  
+                branch = 1'b0;  
+                mem_read = 1'b0;  
+                mem_write = 1'b0;  
+                alu_src = 1'b0;  
+                reg_write = 1'b0;  
+                ALU_funct=3'b000;
+      end  
+      else begin  
+      case(opcode)   
+    3'b000:	begin	 reg_dst = 1'b1;  // R-type
+						 mem_to_reg = 1'b0;
+						 jump = 1'b0;  
+						 branch = 1'b0;  
+						 mem_read = 1'b0;  
+						 mem_write = 1'b0;  
+						 alu_src = 1'b0;  
+						 reg_write = 1'b0;  
+						 ALU_funct=funct_in;
+				end
+	 3'b001:	begin	 reg_dst = 1'b0;  // LW
+						 mem_to_reg = 1'b1;  
+						 jump = 1'b0;  
+						 branch = 1'b0;  
+						 mem_read = 1'b1;  
+						 mem_write = 1'b0;  
+						 alu_src = 1'b1;  
+						 reg_write = 1'b1;  
+						 ALU_funct=3'b000;
+				end
+	 3'b010:	begin	 reg_dst = 1'b0;  // SW
+						 mem_to_reg = 1'b0;  
+						 jump = 1'b0;  
+						 branch = 1'b0;  
+						 mem_read = 1'b0;  
+						 mem_write = 1'b1;  
+						 alu_src = 1'b1;  
+						 reg_write = 1'b0;  
+						 ALU_funct=3'b000;
+				end
+	 3'b011:	begin	 reg_dst = 1'b0;  // Addi
+						 mem_to_reg = 1'b0;  
+						 jump = 1'b0;  
+						 branch = 1'b0;  
+						 mem_read = 1'b0;  
+						 mem_write = 1'b0;  
+						 alu_src = 1'b1;  
+						 reg_write = 1'b1;  
+						 ALU_funct=3'b000;
+				end
+	3'b100:	begin	 reg_dst = 1'b0;  //beq
+						 mem_to_reg = 1'b0;   
+						 jump = 1'b0;  
+						 branch = 1'b1;  
+						 mem_read = 1'b0;  
+						 mem_write = 1'b0;  
+						 alu_src = 1'b0;  
+						 reg_write = 1'b0;  
+						 ALU_funct=3'b011;
+				end
+	 3'b101:	begin	 reg_dst = 1'b0;  //jump
+						 mem_to_reg = 1'b0;   
+						 jump = 1'b1;  
+						 branch = 1'b0;  
+						 mem_read = 1'b0;  
+						 mem_write = 1'b0;  
+						 alu_src = 1'b0;  
+						 reg_write = 1'b0;  
+						 ALU_funct=3'b000;
+				end
+		default: begin 
+						 reg_dst = 1'b1;  
+						 mem_to_reg = 1'b0;   
+						 jump = 1'b0;  
+						 branch = 1'b0;  
+						 mem_read = 1'b0;  
+						 mem_write = 1'b0;  
+						 alu_src = 1'b0;  
+						 reg_write = 1'b1;  
+						 ALU_funct=3'b000;
+					end
+	 endcase
+	 end
+ end  
+ endmodule

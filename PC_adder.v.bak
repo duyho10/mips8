@@ -1,0 +1,8 @@
+//module PC_adder(A,B,C);
+module mips8(A,B,C);
+
+input [7:0] A,B;
+output [7:0] C;
+
+assign C = A + B;
+endmodule

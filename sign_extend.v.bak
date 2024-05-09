@@ -1,0 +1,14 @@
+module mips8(
+    input signed [5:0] input_value, // Input số cần mở rộng (6-bit số có dấu)
+    output reg signed [7:0] output_value // Output số đã được mở rộng (8-bit số có dấu)
+);
+
+always @ (input_value)
+begin
+    // Lấy giá trị bit dấu từ input_value
+    bit signed [5:0] sign_bit = input_value[5];
+    
+    // Đưa ra giá trị mở rộng với kích thước là 8 bit
+    output_value = { {2{sign_bit}}, input_value }; // Mở rộng 6 bit lên 8 bit
+end
+endmodule 
